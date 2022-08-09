@@ -8,10 +8,19 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    const student = {
-        name: req.body.name,
-    };
-    res.json(student);
+    const alreadyIn = students.find(
+        (student) => student.name === req.body.name
+    );
+    console.log(alreadyIn);
+    if (!alreadyIn) {
+        const student = {
+            name: req.body.name,
+        };
+        students.push(student);
+        res.json(student);
+    } else {
+        res.status(409).json("Student already exist");
+    }
 });
 
 module.exports = app;
